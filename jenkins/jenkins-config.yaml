@@ -20,11 +20,18 @@ jenkins:
       templates:
       - containers:
         - args: "^${computer.jnlpmac} ^${computer.name}"
+          command: ""
           envVars:
           - envVar:
               key: "JENKINS_URL"
               value: "http://jenkins.jenkins.svc.cluster.local:8080/"
           image: "jenkins/inbound-agent:4.11.2-4"
+          livenessProbe:
+            failureThreshold: 0
+            initialDelaySeconds: 0
+            periodSeconds: 0
+            successThreshold: 0
+            timeoutSeconds: 0
           name: "jnlp"
           resourceLimitCpu: "512m"
           resourceLimitMemory: "512Mi"
@@ -35,11 +42,15 @@ jenkins:
         label: "jenkins-jenkins-agent"
         name: "default"
         namespace: "jenkins"
-        nodeUsageMode: NORMAL
+        nodeUsageMode: "NORMAL"
         podRetention: "never"
         serviceAccount: "default"
         slaveConnectTimeout: 100
         slaveConnectTimeoutStr: "100"
+        volumes:
+        - hostPathVolume:
+            hostPath: "/usr/bin/kubectl"
+            mountPath: "/usr/bin/kubectl"
         yamlMergeStrategy: "override"
   crumbIssuer:
     standard:
