@@ -20,7 +20,6 @@ jenkins:
       templates:
       - containers:
         - args: "^${computer.jnlpmac} ^${computer.name}"
-          command: ""
           envVars:
           - envVar:
               key: "JENKINS_URL"
@@ -42,9 +41,11 @@ jenkins:
         label: "jenkins-jenkins-agent"
         name: "default"
         namespace: "jenkins"
-        nodeUsageMode: "NORMAL"
+        nodeUsageMode: NORMAL
         podRetention: "never"
-        serviceAccount: "default"
+        runAsGroup: "1000"
+        runAsUser: "1000"
+        serviceAccount: "jenkins"
         slaveConnectTimeout: 100
         slaveConnectTimeoutStr: "100"
         volumes:
